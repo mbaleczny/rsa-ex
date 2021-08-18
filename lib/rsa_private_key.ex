@@ -1,5 +1,4 @@
 defmodule RsaEx.RSAPrivateKey do
-
   defstruct version: nil,
             public_exponent: nil,
             public_modulus: nil,
@@ -12,20 +11,21 @@ defmodule RsaEx.RSAPrivateKey do
             other_prime_infos: nil
 
   @type t :: %RsaEx.RSAPrivateKey{
-    version: atom,
-    public_exponent: integer,
-    public_modulus: integer,
-    private_exponent: integer,
-    prime_one: integer,
-    prime_two: integer,
-    exponent_one: integer,
-    exponent_two: integer,
-    ctr_coefficient: integer,
-    other_prime_infos: atom
-  }
+          version: atom,
+          public_exponent: integer,
+          public_modulus: integer,
+          private_exponent: integer,
+          prime_one: integer,
+          prime_two: integer,
+          exponent_one: integer,
+          exponent_two: integer,
+          ctr_coefficient: integer,
+          other_prime_infos: atom
+        }
 
   def from_sequence(rsa_key_seq) do
-    %RsaEx.RSAPrivateKey{} |> struct(
+    %RsaEx.RSAPrivateKey{}
+    |> struct(
       version: elem(rsa_key_seq, 1),
       public_exponent: elem(rsa_key_seq, 2),
       public_modulus: elem(rsa_key_seq, 3),
@@ -35,29 +35,30 @@ defmodule RsaEx.RSAPrivateKey do
       exponent_one: elem(rsa_key_seq, 7),
       exponent_two: elem(rsa_key_seq, 8),
       ctr_coefficient: elem(rsa_key_seq, 9),
-      other_prime_infos: elem(rsa_key_seq, 10),
+      other_prime_infos: elem(rsa_key_seq, 10)
     )
   end
 
   def as_sequence(rsa_private_key) do
     case rsa_private_key do
       %RsaEx.RSAPrivateKey{} ->
-        {:ok, {
-          :RSAPrivateKey,
-          rsa_private_key.version,
-          rsa_private_key.public_exponent,
-          rsa_private_key.public_modulus,
-          rsa_private_key.private_exponent,
-          rsa_private_key.prime_one,
-          rsa_private_key.prime_two,
-          rsa_private_key.exponent_one,
-          rsa_private_key.exponent_two,
-          rsa_private_key.ctr_coefficient,
-          rsa_private_key.other_prime_infos,
-        }}
+        {:ok,
+         {
+           :RSAPrivateKey,
+           rsa_private_key.version,
+           rsa_private_key.public_exponent,
+           rsa_private_key.public_modulus,
+           rsa_private_key.private_exponent,
+           rsa_private_key.prime_one,
+           rsa_private_key.prime_two,
+           rsa_private_key.exponent_one,
+           rsa_private_key.exponent_two,
+           rsa_private_key.ctr_coefficient,
+           rsa_private_key.other_prime_infos
+         }}
+
       _ ->
-        {:error, "invalid RsaEx.RSAPrivateKey: #{inspect rsa_private_key}"}
+        {:error, "invalid RsaEx.RSAPrivateKey: #{inspect(rsa_private_key)}"}
     end
   end
-
 end

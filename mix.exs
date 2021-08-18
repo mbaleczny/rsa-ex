@@ -2,19 +2,21 @@ defmodule RsaEx.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :rsa_ex,
-     version: "0.4.0",
-     elixir: "~> 1.3",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps(),
-     aliases: aliases(),
-     description: description(),
-     package: package()]
+    [
+      app: :rsa_ex,
+      version: "0.4.0",
+      elixir: "~> 1.11",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      deps: deps(),
+      aliases: aliases(),
+      description: description(),
+      package: package()
+    ]
   end
 
   def application do
-    [applications: []]
+    [applications: [:public_key]]
   end
 
   defp deps do
@@ -30,10 +32,12 @@ defmodule RsaEx.Mixfile do
   end
 
   defp package do
-    [name: :rsa_ex,
-     files: ["lib", "mix.exs"],
-     maintainers: ["Andrey Noskov"],
-     licenses: ["MIT"],
-     links: %{"github" => "https://github.com/anoskov/rsa-ex"}]
+    [
+      name: :rsa_ex,
+      files: ["lib", "mix.exs"],
+      maintainers: ["Andrey Noskov"],
+      licenses: ["MIT"],
+      links: %{"github" => "https://github.com/anoskov/rsa-ex"}
+    ]
   end
 end

@@ -2,48 +2,48 @@ defmodule RsaEx.RSATest do
   use ExUnit.Case, async: true
 
   test "generate_private_key() generates string" do
-    {:ok, priv} = RsaEx.generate_private_key
+    {:ok, priv} = RsaEx.generate_private_key()
 
     assert is_binary(priv)
   end
 
   test "generate_private_key(\"4096\") generates bigger string" do
-    {:ok, priv_2048} = RsaEx.generate_private_key
+    {:ok, priv_2048} = RsaEx.generate_private_key()
     {:ok, priv_4096} = RsaEx.generate_private_key("4096")
 
     assert String.length(priv_2048) < String.length(priv_4096)
   end
 
   test "generate_public_key(private) generates string" do
-    {:ok, priv} = RsaEx.generate_private_key
+    {:ok, priv} = RsaEx.generate_private_key()
     {:ok, pub} = RsaEx.generate_public_key(priv)
 
     assert is_binary(pub)
   end
 
   test "generate_keypair() generates two string" do
-    {:ok, {priv, pub}} = RsaEx.generate_keypair
+    {:ok, {priv, pub}} = RsaEx.generate_keypair()
 
     assert is_binary(priv)
     assert is_binary(pub)
   end
 
   test "sign(msg, priv_key) generates binary" do
-    {:ok, priv} = RsaEx.generate_private_key
+    {:ok, priv} = RsaEx.generate_private_key()
     {:ok, signature} = RsaEx.sign("message", priv)
 
     assert is_binary(signature)
   end
 
   test "sign(msg, priv_key, dygest_type) generates binary" do
-    {:ok, priv} = RsaEx.generate_private_key
+    {:ok, priv} = RsaEx.generate_private_key()
     {:ok, signature} = RsaEx.sign("message", priv, :sha512)
 
     assert is_binary(signature)
   end
 
   test "verify(msg, signature, pub_key) generates true if valid" do
-    {:ok, priv} = RsaEx.generate_private_key
+    {:ok, priv} = RsaEx.generate_private_key()
     {:ok, pub} = RsaEx.generate_public_key(priv)
     {:ok, signature} = RsaEx.sign("message", priv)
     {:ok, valid} = RsaEx.verify("message", signature, pub)
@@ -52,7 +52,7 @@ defmodule RsaEx.RSATest do
   end
 
   test "verify(msg, signature, pub_key, digest_type) generates true if valid" do
-    {:ok, priv} = RsaEx.generate_private_key
+    {:ok, priv} = RsaEx.generate_private_key()
     {:ok, pub} = RsaEx.generate_public_key(priv)
     {:ok, signature} = RsaEx.sign("message", priv, :sha512)
     {:ok, valid} = RsaEx.verify("message", signature, pub, :sha512)
@@ -61,7 +61,7 @@ defmodule RsaEx.RSATest do
   end
 
   test "verify(msg, signature, pub_key) generates false if invalid" do
-    {:ok, priv} = RsaEx.generate_private_key
+    {:ok, priv} = RsaEx.generate_private_key()
     {:ok, pub} = RsaEx.generate_public_key(priv)
     {:ok, signature} = RsaEx.sign("message", priv)
     {:ok, invalid} = RsaEx.verify("messages", signature, pub)
@@ -70,7 +70,7 @@ defmodule RsaEx.RSATest do
   end
 
   test "verify(msg, signature, pub_key, digest_type) generates false if invalid" do
-    {:ok, priv} = RsaEx.generate_private_key
+    {:ok, priv} = RsaEx.generate_private_key()
     {:ok, pub} = RsaEx.generate_public_key(priv)
     {:ok, signature} = RsaEx.sign("message", priv, :sha512)
     {:ok, invalid} = RsaEx.verify("messages", signature, pub, :sha512)
@@ -79,14 +79,14 @@ defmodule RsaEx.RSATest do
   end
 
   test "encrypt(message, pub_key) generates encrypted string" do
-    {:ok, {_priv, pub}} = RsaEx.generate_keypair
+    {:ok, {_priv, pub}} = RsaEx.generate_keypair()
     {:ok, encrypted} = RsaEx.encrypt("msg", pub)
 
     assert is_binary(encrypted)
   end
 
   test "decrypt(cipher, priv_key) generates decoded string" do
-    {:ok, {priv, pub}} = RsaEx.generate_keypair
+    {:ok, {priv, pub}} = RsaEx.generate_keypair()
     {:ok, encrypted} = RsaEx.encrypt("msg", pub)
     {:ok, decrypted} = RsaEx.decrypt(encrypted, priv)
 
@@ -95,21 +95,21 @@ defmodule RsaEx.RSATest do
   end
 
   test "encrypt(message, {:public_key, pub_key}) generates encrypted string" do
-    {:ok, {_priv, pub}} = RsaEx.generate_keypair
+    {:ok, {_priv, pub}} = RsaEx.generate_keypair()
     {:ok, encrypted} = RsaEx.encrypt("msg", {:public_key, pub})
 
     assert is_binary(encrypted)
   end
 
   test "encrypt(message, {:private_key, priv_key}) generates encrypted string" do
-    {:ok, {priv, _pub}} = RsaEx.generate_keypair
+    {:ok, {priv, _pub}} = RsaEx.generate_keypair()
     {:ok, encrypted} = RsaEx.encrypt("msg", {:private_key, priv})
 
     assert is_binary(encrypted)
   end
 
   test "decrypt(cipher, {:private_key, priv_key}) generates decoded string" do
-    {:ok, {priv, pub}} = RsaEx.generate_keypair
+    {:ok, {priv, pub}} = RsaEx.generate_keypair()
     {:ok, encrypted} = RsaEx.encrypt("msg", {:public_key, pub})
     {:ok, decrypted} = RsaEx.decrypt(encrypted, {:private_key, priv})
 
@@ -118,7 +118,7 @@ defmodule RsaEx.RSATest do
   end
 
   test "decrypt(cipher, {:public_key, pub_key}) generates decoded string" do
-    {:ok, {priv, pub}} = RsaEx.generate_keypair
+    {:ok, {priv, pub}} = RsaEx.generate_keypair()
     {:ok, encrypted} = RsaEx.encrypt("msg", {:private_key, priv})
     {:ok, decrypted} = RsaEx.decrypt(encrypted, {:public_key, pub})
 
